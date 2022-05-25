@@ -1,0 +1,10 @@
+name: cities
+version: 1.0.0
+description: A dataset containing 2.6 million cities that can be used by benchmarks or demos. Zero third party dependencies and completely self-contained.
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dev_dependencies:
+  extra_pedantic: ^2.0.0
+  test: ^1.16.0-0
