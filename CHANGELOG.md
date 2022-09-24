@@ -1,3 +1,8 @@
+## 2.0.0
+
+- provide different choices for city loading: lazy or eager city parsing.
+- removed Cities wrapper type.
+
 ## 1.1.0
 
 - build each city lazily.

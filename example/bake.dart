@@ -3,13 +3,13 @@ import 'package:cities/model.dart';
 
 // This could be used to bake some of the benchmark data to a dart file.
 Future<void> main() async {
-  final _cities = await cities_auto();
-  final baked = _bake(_cities);
+  final _cities = await cities_auto_eager();
+  final baked = _bake(_cities.toList());
   print(baked);
 }
 
 String _bake(
-  final Cities cities,
+  final List<City> cities,
 ) {
   return """
 abstract class CitiesTestData {
@@ -34,35 +34,35 @@ abstract class CitiesTestData {
 class CitiesTestDataImpl implements CitiesTestData {
   const CitiesTestDataImpl();
   @override
-  List<String> cities1() => [${cities.all.take(1).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
+  List<String> cities1() => [${cities.take(1).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
   @override
-  List<String> cities10() => [${cities.all.take(10).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
+  List<String> cities10() => [${cities.take(10).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
   @override
-  List<String> cities100() => [${cities.all.take(100).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
+  List<String> cities100() => [${cities.take(100).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
   @override
-  List<String> cities1000() => [${cities.all.take(1000).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
+  List<String> cities1000() => [${cities.take(1000).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
   @override
-  List<String> cities10000() => [${cities.all.take(10000).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
+  List<String> cities10000() => [${cities.take(10000).map((final a) => "'${a.city.replaceAll("'", r"\'")}'").join(", ")}];
   @override
-  List<double> longitudes1() => [${cities.all.take(1).map((final a) => a.longitude).join(", ")}];
+  List<double> longitudes1() => [${cities.take(1).map((final a) => a.longitude).join(", ")}];
   @override
-  List<double> longitudes10() => [${cities.all.take(10).map((final a) => a.longitude).join(", ")}];
+  List<double> longitudes10() => [${cities.take(10).map((final a) => a.longitude).join(", ")}];
   @override
-  List<double> longitudes100() => [${cities.all.take(100).map((final a) => a.longitude).join(", ")}];
+  List<double> longitudes100() => [${cities.take(100).map((final a) => a.longitude).join(", ")}];
   @override
-  List<double> longitudes1000() => [${cities.all.take(1000).map((final a) => a.longitude).join(", ")}];
+  List<double> longitudes1000() => [${cities.take(1000).map((final a) => a.longitude).join(", ")}];
   @override
-  List<double> longitudes10000() => [${cities.all.take(10000).map((final a) => a.longitude).join(", ")}];
+  List<double> longitudes10000() => [${cities.take(10000).map((final a) => a.longitude).join(", ")}];
   @override
-  List<int> integerLongitudes1() => [${cities.all.take(1).map((final a) => a.longitude.toInt()).join(", ")}];
+  List<int> integerLongitudes1() => [${cities.take(1).map((final a) => a.longitude.toInt()).join(", ")}];
   @override
-  List<int> integerLongitudes10() => [${cities.all.take(10).map((final a) => a.longitude.toInt()).join(", ")}];
+  List<int> integerLongitudes10() => [${cities.take(10).map((final a) => a.longitude.toInt()).join(", ")}];
   @override
-  List<int> integerLongitudes100() => [${cities.all.take(100).map((final a) => a.longitude.toInt()).join(", ")}];
+  List<int> integerLongitudes100() => [${cities.take(100).map((final a) => a.longitude.toInt()).join(", ")}];
   @override
-  List<int> integerLongitudes1000() => [${cities.all.take(1000).map((final a) => a.longitude.toInt()).join(", ")}];
+  List<int> integerLongitudes1000() => [${cities.take(1000).map((final a) => a.longitude.toInt()).join(", ")}];
   @override
-  List<int> integerLongitudes10000() => [${cities.all.take(10000).map((final a) => a.longitude.toInt()).join(", ")}];
+  List<int> integerLongitudes10000() => [${cities.take(10000).map((final a) => a.longitude.toInt()).join(", ")}];
 }
 """;
 }

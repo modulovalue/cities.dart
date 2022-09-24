@@ -7,7 +7,7 @@ City parse_city_lazy({
   );
 }
 
-City parse_city({
+City parse_city_eager({
   required final String str,
 }) {
   final components = str.split(
@@ -17,7 +17,7 @@ City parse_city({
     components.length == 6,
     "Each entry must have exactly 6 values.",
   );
-  return _CityImpl(
+  return _CityEagerImpl(
     country: components[0],
     // Some values contain leading spaces, remove them here.
     city: components[1].trimLeft(),
@@ -47,19 +47,6 @@ abstract class City {
   double get longitude;
 
   String debug_string();
-}
-
-abstract class Cities {
-  List<City> get all;
-}
-
-class CitiesImpl implements Cities {
-  @override
-  final List<City> all;
-
-  const CitiesImpl({
-    required final this.all,
-  });
 }
 // endregion
 
@@ -117,7 +104,7 @@ class _CityLazyImpl with _CityToStringMixin implements City {
   }
 }
 
-class _CityImpl with _CityToStringMixin implements City {
+class _CityEagerImpl with _CityToStringMixin implements City {
   @override
   final String country;
   @override
@@ -131,7 +118,7 @@ class _CityImpl with _CityToStringMixin implements City {
   @override
   final double longitude;
 
-  const _CityImpl({
+  const _CityEagerImpl({
     required final this.country,
     required final this.city,
     required final this.accent_city,
