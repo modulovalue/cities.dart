@@ -1,5 +1,5 @@
 name: cities
-version: 1.0.0
+version: 1.1.0
 description: A dataset containing 2.6 million cities that can be used by benchmarks or demos. Zero third party dependencies and completely self-contained.
 homepage: https://github.com/modulovalue/cities.dart
 repository: https://github.com/modulovalue/cities.dart

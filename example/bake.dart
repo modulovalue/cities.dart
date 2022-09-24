@@ -10,8 +10,8 @@ Future<void> main() async {
 
 String _bake(
   final Cities cities,
-) =>
-    """
+) {
+  return """
 abstract class CitiesTestData {
   List<String> cities1();
   List<String> cities10();
@@ -65,3 +65,4 @@ class CitiesTestDataImpl implements CitiesTestData {
   List<int> integerLongitudes10000() => [${cities.all.take(10000).map((final a) => a.longitude.toInt()).join(", ")}];
 }
 """;
+}

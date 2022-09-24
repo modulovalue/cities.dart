@@ -1,14 +1,36 @@
-abstract class Cities {
-  List<City> get all;
+// region public
+City parse_city_lazy({
+  required final String str,
+}) {
+  return _CityLazyImpl(
+    str: str,
+  );
 }
 
-class CitiesImpl implements Cities {
-  @override
-  final List<City> all;
-
-  const CitiesImpl({
-    required final this.all,
-  });
+City parse_city({
+  required final String str,
+}) {
+  final components = str.split(
+    ",",
+  );
+  assert(
+    components.length == 6,
+    "Each entry must have exactly 6 values.",
+  );
+  return _CityImpl(
+    country: components[0],
+    // Some values contain leading spaces, remove them here.
+    city: components[1].trimLeft(),
+    // Some values contain leading spaces, remove them here.
+    accent_city: components[2].trimLeft(),
+    region: components[3],
+    latitude: double.parse(
+      components[4],
+    ),
+    longitude: double.parse(
+      components[5],
+    ),
+  );
 }
 
 abstract class City {
@@ -27,7 +49,75 @@ abstract class City {
   String debug_string();
 }
 
-class CityImpl implements City {
+abstract class Cities {
+  List<City> get all;
+}
+
+class CitiesImpl implements Cities {
+  @override
+  final List<City> all;
+
+  const CitiesImpl({
+    required final this.all,
+  });
+}
+// endregion
+
+// region internal
+class _CityLazyImpl with _CityToStringMixin implements City {
+  final String str;
+
+  _CityLazyImpl({
+    required final this.str,
+  });
+
+  late final components = () {
+    final components = str.split(
+      ",",
+    );
+    assert(
+      components.length == 6,
+      "Each entry must have exactly 6 values.",
+    );
+    return components;
+  }();
+
+  @override
+  String get country {
+    return components[0];
+  }
+
+  @override
+  String get city {
+    return components[1].trimLeft();
+  }
+
+  @override
+  String get accent_city {
+    return components[2].trimLeft();
+  }
+
+  @override
+  String get region {
+    return components[3];
+  }
+
+  @override
+  double get latitude {
+    return double.parse(
+      components[4],
+    );
+  }
+
+  @override
+  double get longitude {
+    return double.parse(
+      components[5],
+    );
+  }
+}
+
+class _CityImpl with _CityToStringMixin implements City {
   @override
   final String country;
   @override
@@ -41,7 +131,7 @@ class CityImpl implements City {
   @override
   final double longitude;
 
-  const CityImpl({
+  const _CityImpl({
     required final this.country,
     required final this.city,
     required final this.accent_city,
@@ -49,7 +139,9 @@ class CityImpl implements City {
     required final this.latitude,
     required final this.longitude,
   });
+}
 
+mixin _CityToStringMixin implements City {
   @override
   String toString() => debug_string();
 
@@ -69,3 +161,4 @@ class CityImpl implements City {
       longitude.toString() +
       ')';
 }
+// endregion

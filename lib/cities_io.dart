@@ -4,8 +4,21 @@ import 'dart:isolate';
 
 import 'model.dart';
 
+// region public
 /// Loads the cities file from the disk and parses it into a safe model.
 Future<Cities> cities_auto() async {
+  final cities = await cities_auto_lazy();
+  final cities_list = cities.toList();
+  return CitiesImpl(
+    all: cities_list,
+  );
+}
+
+/// Returns a lazy iterable of all parsed cities.
+///
+/// Good for when you want to use your own index
+/// and not pay for the overhead of lists.
+Future<Iterable<City>> cities_auto_lazy() async {
   final location_of_cities_file_within_this_package = Uri.parse(
     _cities_path_within_package,
   );
@@ -22,19 +35,29 @@ Future<Cities> cities_auto() async {
     final file = File(
       file_path,
     );
-    return _cities_from_raw_file(
+    final cities_file = _decode_cities_from_raw_file(
       file: file,
+    );
+    final cities_iterable = _cities_from(
+      content: cities_file,
+    );
+    return cities_iterable.map(
+      (final e) => parse_city_lazy(
+        str: e,
+      ),
     );
   }
 }
+// endregion
 
+// region internal
 const String _cities_path_within_package = "package:" + _cities_package_name + "/" + _cities_file_name;
 
 const String _cities_package_name = "cities";
 
 const String _cities_file_name = "cities.txt.gz";
 
-Cities _cities_from_raw_file({
+String _decode_cities_from_raw_file({
   required final File file,
 }) {
   final content = file.readAsBytesSync();
@@ -53,12 +76,10 @@ Cities _cities_from_raw_file({
   final latin1_decoded = latin1.decode(
     gzip_decoded,
   );
-  return _cities_from(
-    content: latin1_decoded,
-  );
+  return latin1_decoded;
 }
 
-Cities _cities_from({
+Iterable<String> _cities_from({
   required final String content,
 }) {
   final lines = LineSplitter.split(
@@ -68,36 +89,8 @@ Cities _cities_from({
     1,
   );
   final cities = lines_without_header.map(
-    (final a) => _city_from_string(
-      str: a,
-    ),
+    (final a) => a,
   );
-  final cities_list = cities.toList();
-  return CitiesImpl(
-    all: cities_list,
-  );
+  return cities;
 }
-
-City _city_from_string({
-  required final String str,
-}) {
-  final components = str.split(
-    ",",
-  );
-  assert(
-    components.length == 6,
-    "Each entry must have exactly 6 values.",
-  );
-  return CityImpl(
-    country: components[0],
-    city: components[1],
-    accent_city: components[2],
-    region: components[3],
-    latitude: double.parse(
-      components[4],
-    ),
-    longitude: double.parse(
-      components[5],
-    ),
-  );
-}
+// endregion

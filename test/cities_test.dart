@@ -2,7 +2,7 @@ import 'package:cities/cities_io.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  final sut = (await cities_auto()).all.toList();
+  final sut = (await cities_auto()).all;
   group("test", () {
     test("amount of cities", () {
       _texpect(
