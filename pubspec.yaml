@@ -7,7 +7,7 @@ issue_tracker: https://github.com/modulovalue/cities.dart
 documentation: https://github.com/modulovalue/cities.dart
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=2.12.0 <4.0.0'
 
 dev_dependencies:
   extra_pedantic: ^2.0.0
