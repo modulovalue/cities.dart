@@ -8,7 +8,7 @@ A dataset containing over 2 million real cities that can be used by benchmarks o
 It has zero third party dependencies and is completely self-contained.
 
 ```yaml
-  cities: 1.0.0
+  cities: *insert-newest-version-here*
 ```
 
 ```dart
